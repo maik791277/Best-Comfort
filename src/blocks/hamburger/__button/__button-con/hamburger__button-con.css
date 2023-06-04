@@ -1,0 +1,5 @@
+.hamburger__button-con {
+    width: auto;
+    margin: 0 auto;
+    transition: all .7s ease;
+}

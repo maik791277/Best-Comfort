@@ -1,0 +1,5 @@
+.popup-image__container {
+    position: relative;
+    transition: 0.3s;
+    z-index: 111;
+}

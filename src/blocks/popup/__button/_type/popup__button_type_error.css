@@ -1,0 +1,8 @@
+.popup__button_type_error {
+    background: #fff;
+    border-radius: 2px;
+    border: 1px solid #bebebe;
+    color: #bebebe;
+    user-select: none;
+    pointer-events: none;
+}

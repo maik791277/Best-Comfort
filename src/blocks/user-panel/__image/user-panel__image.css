@@ -1,0 +1,9 @@
+.user-panel__image {
+    margin-left: 20px;
+}
+
+@media all and (min-width: 600px) and (max-width: 880px) {
+    .user-panel__image {
+        margin: 20px 0 0 0;
+    }
+}

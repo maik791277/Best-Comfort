@@ -1,0 +1,13 @@
+.user-panel__button {
+    max-width: 150px;
+    width: 100%;
+    height: 50px;
+    border: 2px solid #FFFFFF;
+    position: absolute;
+    transition: 0.3s;
+    cursor: pointer;
+    background-color: transparent;
+    color: #FFFFFF;
+
+}
+

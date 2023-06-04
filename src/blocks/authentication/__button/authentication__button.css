@@ -1,0 +1,12 @@
+.authentication__button {
+    max-width: 358px;
+    width: 100%;
+    height: 50px;
+    margin-top: 140px;
+}
+
+@media all and (min-width: 280px) and (max-width: 360px) {
+    .authentication__button {
+        margin-top: 43px;
+    }
+}

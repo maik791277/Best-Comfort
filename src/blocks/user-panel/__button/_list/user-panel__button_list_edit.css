@@ -1,0 +1,11 @@
+.user-panel__button_list_edit {
+    right: 200px;
+    top: 53px;
+}
+
+@media all and (min-width: 600px) and (max-width: 880px) {
+    .user-panel__button_list_edit {
+        left: 20px;
+        top: 53px;
+    }
+}

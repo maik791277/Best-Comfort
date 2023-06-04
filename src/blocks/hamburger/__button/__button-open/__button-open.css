@@ -1,0 +1,11 @@
+.top-open {
+    transform: translateY(15px) rotateZ(45deg);
+}
+
+.bottom-open {
+    transform: translateY(-15px) rotateZ(-45deg);
+}
+
+.middle-open {
+    width: 0;
+}

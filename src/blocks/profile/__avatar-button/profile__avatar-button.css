@@ -1,0 +1,16 @@
+.profile__avatar-button {
+    width: 120px;
+    height: 120px;
+    position: absolute;
+    border-radius: 50%;
+    border: 0;
+    transition: all .3s ease-in-out;
+    background: url("../../../images/Vector.png") 50% center no-repeat;
+    opacity: 0;
+}
+
+.profile__avatar-button:hover {
+    background-color:rgba(0, 0, 0, 0.8);
+    opacity: 1;
+}
+

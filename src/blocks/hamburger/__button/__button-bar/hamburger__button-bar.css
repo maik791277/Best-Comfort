@@ -1,0 +1,8 @@
+.hamburger__button-bar {
+    display: block;
+    height: 5px;
+    width: 50px;
+    background: #ffffff;
+    margin: 10px auto;
+    transition: all .7s ease;
+}

@@ -1,0 +1,15 @@
+.header__button {
+    width: 114px;
+    height: 22px;
+    color: #ffffff;
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    text-align: center;
+}
+
+@media all and (min-width: 280px) and (max-width: 700px) {
+    .header__button {
+        margin-top: 20px;
+    }
+}

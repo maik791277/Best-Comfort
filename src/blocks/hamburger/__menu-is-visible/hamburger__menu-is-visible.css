@@ -1,0 +1,10 @@
+.hamburger__menu-is-visible {
+    overflow: visible;
+    max-height: 200px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: max-height 0.8s cubic-bezier(0, 1, 0, 1);
+}
