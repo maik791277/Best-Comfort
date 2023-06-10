@@ -1,0 +1,7 @@
+.cardInfoUser {
+    width: 480px;
+    max-width: 100%;
+    min-height: 620px;
+    position: relative;
+    border-radius: 25%;
+}

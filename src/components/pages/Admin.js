@@ -14,6 +14,7 @@ export function Admin(props) {
          currentAllUsers={item}
          editUserPopupClick={props.editUserPopupClick}
          deleteUser={props.deleteUser}
+         setIdUser={props.setIdUser}
          />
          );
       })}

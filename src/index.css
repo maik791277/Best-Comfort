@@ -95,3 +95,13 @@
 @import "./blocks/user-panel/__image/user-panel__image.css";
 @import "./blocks/user-panel/__button/_list/user-panel__button_list_edit.css";
 @import "./blocks/user-panel/__button/_list/user-panel__button_list_remove.css";
+/* cardInfoUser */
+@import "./blocks/cardInfoUser/cardInfoUser.css";
+@import "./blocks/cardInfoUser/__container/cardInfoUser__container.css";
+@import "./blocks/cardInfoUser/__blockHeader/cardInfoUser__blockHeader.css";
+@import "./blocks/cardInfoUser/__avatar/cardInfoUser__avatar.css";
+@import "./blocks/cardInfoUser/__Content/cardInfoUser__Content.css";
+@import "./blocks/cardInfoUser/__ContentText/cardInfoUser__ContentText.css";
+@import "./blocks/cardInfoUser/__textH/cardInfoUser__textH.css";
+@import "./blocks/cardInfoUser/__textP/cardInfoUser__textP.css";
+@import "./blocks/cardInfoUser/cardInfoUser__text-p/cardInfoUser__text-p.css";

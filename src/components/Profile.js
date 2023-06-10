@@ -3,6 +3,11 @@ import React from "react";
 function Profile(props) {
    const currentUser = props.currentUser
 
+
+   function CardInfoUserClick() {
+      props.setCardInfoUser(currentUser)
+
+   }
    return(
    <main className="content">
       <section className="profile">
@@ -15,7 +20,7 @@ function Profile(props) {
             />
          </div>
          <div className="profile__info">
-            <div className="profile__info-content">
+            <div className="profile__info-content" onClick={CardInfoUserClick}>
                <h1 className="profile__name">{currentUser.name}</h1>
                <p className="profile__job">{currentUser.about}</p>
             </div>

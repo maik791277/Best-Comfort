@@ -11,6 +11,7 @@ function Header (props) {
    const [unknown, setUnknown] = useState(true)
    const [user, setUser] = useState(false)
    const [admin,setAdmin] = useState(false)
+   const [viewUser, setViewUser] =useState(false)
    const [adminPage, setAdminPage] = useState(false)
    const currentUser = React.useContext(CurrentUserContext)
    let location = useLocation();
@@ -40,12 +41,24 @@ function Header (props) {
          setUnknown(false)
          setAdmin(false)
          setUser(false)
+         setViewUser(false)
          document.querySelector('.header__user').classList.remove('header__user-main')
       }else if (location.pathname === '/sign-up') {
          setLogin(false)
          setRegister(true)
          setLoggedIna(false)
          setUnknown(false)
+         setViewUser(false)
+      }else if (location.pathname === '/view-user') {
+         setViewUser(true)
+         setLogin(false)
+         setRegister(false)
+         setLoggedIna(false)
+         setUnknown(false)
+         setAdmin(false)
+         setUser(false)
+         setAdmin(false)
+         setAdminPage(false)
       }
    }
 
@@ -55,6 +68,7 @@ function Header (props) {
 
    function deleteJwt() {
       localStorage.removeItem('jwt')
+      props.setJwt("")
       navigate('/sign-in')
       props.setLoggedAdmin(false)
       props.setLoggedUser(false)
@@ -77,6 +91,12 @@ function Header (props) {
       props.setLoggedAdminPage(false)
       setAdmin(true)
       setAdminPage(false)
+   }
+
+   function adminPagesVies() {
+      navigate('/main')
+      setViewUser(false)
+      setAdminPage(true)
    }
 
 
@@ -162,17 +182,20 @@ function Header (props) {
             </>
             }
 
-            {login &&
+            {viewUser &&
             <>
-               <Link to="/sign-up" className="header__button" >Регистрация</Link>
+               <button onClick={adminPagesVies} className="header__button">Пользователи</button>
+               <button onClick={deleteJwt} className="header__button">Выход</button>
+               <p className="header__user-email">{currentUser.email}</p>
             </>
             }
 
-            {register &&
+            {login &&
             <>
-               <Link to="/sign-in" className="header__button">Вход</Link>
+
             </>
             }
+
             {unknown &&
                <>
                   <Link to="/main" className="header__button">Главная</Link>

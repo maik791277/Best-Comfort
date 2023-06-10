@@ -1,0 +1,7 @@
+.cardInfoUser__blockHeader {
+    background-image: url("../../../images/3d-rendering-of-ventilation-system.jpg");
+    background-color: rgba(0, 0, 0, 0.2);
+    background-position: center;
+    background-size: cover;
+    height: 155px;
+}

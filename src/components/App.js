@@ -1,15 +1,11 @@
 import Main from "./Main";
 import somethingIsWrong from "../images/something-wrong.png"
-import something from "../images/Union (1).png";
 import React, {useState, useEffect} from "react";
 import {Routes, Route, Navigate, useNavigate, useLocation} from "react-router-dom";
-import {api} from "../utils/Api";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import Login from "./pages/Login";
 import {ProtectedRoute} from "./ProtectedRoute";
-import Register from "./pages/Register";
 import PageNotFound from "./pages/PageNotFound";
-import * as mestoAuth from "../utils/mestoAuth";
 import * as ApiUser from "../utils/ApiUser"
 import Header from "./Header";
 import EditProfilePopup from "./EditProfilePopup";
@@ -19,10 +15,13 @@ import DeletePlacePopup from "./DeletePlacePopup";
 import ImagePopup from "./ImagePopup";
 import InfoTooltip from "./InfoTooltip";
 import jwtDecode from "jwt-decode";
-import {getInitialCards, registeringNewUser} from "../utils/ApiUser";
 import EditUserPopup from "./pages/EditUserPopup";
 import RegisteringNewUserPopup from "./RegisteringNewUserPopup";
 import DeleteUserPlacePopup from "./DeleteUserPlacePopup";
+import ViewUser from "./pages/ViewUser";
+import {CurrentUserid} from "../contexts/CurrentUserid";
+import CardInfoUser from "./CardInfoUser";
+import Users from "./pages/Users";
 
 
 function App() {
@@ -35,6 +34,7 @@ function App() {
    const [isEditUserPopup, setIsEditUserPopup] = useState(false)
    const [isRegisteringNewUserPopup ,setIsRegisteringNewUserPopup] = useState(false)
    const [inDeleteUser, setInDeleteUser] = useState(false)
+   const [cardInfoUser, setCardInfoUser] = useState(false)
    const [popupRegister, setPopupRegister] = useState({
       textPopup: '',
       imagePopup: ''
@@ -49,6 +49,10 @@ function App() {
    const [currentUser, setCurrentUser] = useState([]);
    const [currentAllUsers, setCurrentAllUsers] = useState([])
    const [currentCard, setCurrentCard] = useState([]);
+   const [inforationUserCard, setInforationUserCard] = useState({})
+   const [token, setToken] = useState(true)
+   const [idUser, setIdUser] = useState("")
+   const [jwt, setJwt] = useState(localStorage.getItem('jwt'))
 
    const navigate = useNavigate()
    let location = useLocation();
@@ -57,23 +61,13 @@ function App() {
 
 
 
-   useEffect(() => {
-      if (loggedIn) {
-         if (location.pathname === '/sign-up' || location.pathname === '/sign-in') {
-            navigate('/main')
-         }
-      }
-      card()
-   }, [loggedIn, navigate])
-
 
    function authorize(email, password) {
       ApiUser.authorize(email, password)
       .then((data) => {
-         if (data) {
             localStorage.setItem('jwt', data.token)
-            tokenCheck()
-         }
+            setJwt(data.token)
+            tokenCheck(data.token)
       })
       .catch((err) => {
          if (err === 'Ошибка 401') {
@@ -91,72 +85,51 @@ function App() {
             setIsInfoTooltip(true)
          }
       });
-      card()
-   }
-
-   function register(email, password) {
-      mestoAuth.register(email, password)
-      .then(() => {
-         setPopupRegister({
-            textPopup: `Вы успешно зарегистрировались!`,
-            imagePopup: something
-         })
-         setIsInfoTooltip(true)
-         setTimeout(navigate, 3000, '/sign-in')
-      })
-      .catch((err) => {
-         setPopupRegister({
-            textPopup: `${err} Что-то пошло не так! Возможно у вас уже есть аккаунт. Попробуйте ещё раз.`,
-            imagePopup: somethingIsWrong
-         })
-         setIsInfoTooltip(true)
-      });
    }
 
    function registeringNewUser(data) {
-      ApiUser.registeringNewUser(data)
+      ApiUser.registeringNewUser(data, jwt)
       .then(() => {
-         allUsers()
+         allUsers(jwt)
          closeAllPopups()
       })
    }
 
-   function allUsers() {
-      ApiUser.allUsers()
+   function allUsers(jwt) {
+      ApiUser.allUsers(jwt)
       .then((data) => {
          setCurrentAllUsers(data)
       })
    }
 
-   console.log(currentAllUsers)
-
-   function tokenCheck() {
-      let jwt = localStorage.getItem('jwt')
-      if (jwt) {
-         let jwtUser = jwtDecode(jwt)
-         console.log(jwtUser.role)
-         ApiUser.usersMe(jwtUser._id)
-         .then((data) => {
-            if(jwtUser.role === "admin"){
-               setCurrentUser(data)
-               setLoggedAdmin(true)
-               setLoggedIn(true)
-               allUsers()
-            }else if (jwtUser.role === "user") {
-               setLoggedUser(true)
-               setCurrentUser(data)
-               setLoggedIn(true)
-            }
+   function tokenCheck(jwt) {
+      if (jwt){
+         ApiUser.tokenVerification(jwt).then(() => {
+            let jwtUser = jwtDecode(jwt)
+            ApiUser.usersMe(jwtUser._id, jwt)
+            .then((data) => {
+               if(jwtUser.role === "admin"){
+                  setCurrentUser(data)
+                  setLoggedAdmin(true)
+                  setLoggedIn(true)
+                  allUsers(jwt)
+                  card()
+               }else if (jwtUser.role === "user") {
+                  setLoggedUser(true)
+                  setCurrentUser(data)
+                  setLoggedIn(true)
+                  card()
+               }
+            })
+            .catch((err) => alert(err));
          })
-         .catch((err) => alert(err));
       }
    }
 
    function card() {
-      let jwt = localStorage.getItem('jwt')
       if (jwt) {
          let jwtUser = jwtDecode(jwt)
-         ApiUser.getInitialCards(jwtUser._id)
+         ApiUser.getInitialCards(jwtUser._id, jwt)
          .then((data) => {
             setCurrentCard(data);
          })
@@ -164,35 +137,8 @@ function App() {
       }
    }
 
-   useEffect(() => {
-      tokenCheck()
-      card()
-   }, [])
-
-
-   // function handleCardLike(card) {
-   //    const isLiked = card.likes.some((i) => i._id === currentUser._id);
-   //
-   //    api.putCardLike(card._id, !isLiked)
-   //    .then((newCard) => {
-   //       setCurrentCard((state) =>
-   //       state.map((c) => (c._id === card._id ? newCard : c))
-   //       );
-   //    })
-   //    .catch((err) => alert(err));
-   // }
-
-   function handleCardDelete(card) {
-      api.deleteCard(card._id)
-      .then(() => {
-         setCurrentCard((state) => state.filter((c) => c._id !== card._id));
-         closeAllPopups();
-      })
-      .catch((err) => alert(err));
-   }
-
    function handleUpdateUser(data, idUser) {
-      ApiUser.createUserInformation(data, idUser)
+      ApiUser.createUserInformation(data, idUser, jwt)
       .then((data) => {
          setCurrentUser(data);
          closeAllPopups();
@@ -201,40 +147,37 @@ function App() {
    }
 
    function deleteUsers(idUser) {
-      ApiUser.deleteUser(idUser)
+      ApiUser.deleteUser(idUser, jwt)
       .then(() => {
-         allUsers()
+         allUsers(jwt)
          closeAllPopups()
       })
    }
 
    function handleUpdateUserAdmin(data, idUser) {
-      ApiUser.createUserInformation(data, idUser)
+      ApiUser.createUserInformation(data, idUser, jwt)
       .then(() => {
-         allUsers()
+         allUsers(jwt)
          closeAllPopups();
       })
       .catch((err) => alert(err));
    }
 
+   useEffect(() => {
+      tokenCheck(jwt)
+   }, [])
 
-   // function handleUpdateAvatar(data) {
-   //    api.createUserImage(data)
-   //    .then((data) => {
-   //       setCurrentUser(data);
-   //       closeAllPopups();
-   //    })
-   //    .catch((err) => alert(err));
-   // }
+   useEffect(() => {
+      if (loggedIn) {
+         if (location.pathname === '/sign-up' || location.pathname === '/sign-in') {
+            navigate('/main')
+         }
+      }
+      card()
+   }, [loggedIn, navigate])
 
-   function handleUpdateCard(data) {
-      api.createCard(data)
-      .then((data) => {
-         setCurrentCard([data, ...currentCard]);
-         closeAllPopups();
-      })
-      .catch((err) => alert(err));
-   }
+
+
 
    function handleEditAvatarClick() {
       setIsEditAvatarPopupOpen(true);
@@ -267,6 +210,11 @@ function App() {
       setCardUserid(data)
    }
 
+   function setCardInfoUserClick(data) {
+      setCardInfoUser(true)
+      setInforationUserCard(data)
+   }
+
    function handleCardClick(card) {
       setSelectedCard(card);
       setIsImagePopupOpen(true);
@@ -282,10 +230,12 @@ function App() {
       setIsEditUserPopup(false)
       setIsRegisteringNewUserPopup(false)
       setInDeleteUser(false)
+      setCardInfoUser(false)
    }
 
    return (
    <CurrentUserContext.Provider value={currentUser}>
+      <CurrentUserid.Provider value={idUser}>
       <div className="body">
          <div className="page">
             <Header setLoggedIn={setLoggedIn}
@@ -296,7 +246,8 @@ function App() {
                     loggedAdminPage={loggedAdminPage}
                     setLoggedAdminPage={setLoggedAdminPage}
                     setCurrentUser={setCurrentUser}
-                    setCurrentCard={setCurrentCard}/>
+                    setCurrentCard={setCurrentCard}
+                    setJwt={setJwt}/>
             <Routes>
                <Route path="/main" element={<ProtectedRoute
                element={Main}
@@ -314,11 +265,16 @@ function App() {
                currentAllUsers={currentAllUsers}
                registeringNewUserPopupClick={registeringNewUserPopupClick}
                deleteUser={deleteUser}
-               />}
-               />
-
+               setIdUser={setIdUser}
+               setCardInfoUser={setCardInfoUserClick}
+               />}/>
+               <Route path="/view-user" element={<ProtectedRoute
+                  element={ViewUser}
+                  jwt={jwt}
+                  loggedIn={loggedAdmin}
+                  setCardInfoUser={setCardInfoUserClick}
+                  />}/>
                <Route path="/sign-in" element={<Login authorize={authorize}/> }/>
-               <Route path="/sign-up" element={<Register popupRegister={setPopupRegister} isInfoTooltip={setIsInfoTooltip} register={register}/>}/>
                <Route path="*" element={<PageNotFound/>}/>
                <Route path="/" element={loggedIn ? <Navigate to='/main'/> : <Navigate to='/sign-in'/>}/>
             </Routes>
@@ -337,12 +293,12 @@ function App() {
          <AddPlacePopup
          isOpen={isAddPlacePopupOpen}
          onClose={closeAllPopups}
-         onUpdateCard={handleUpdateCard}
+         // onUpdateCard={}
          />
          <DeletePlacePopup
          isOpen={isDeleteCardPopupOpen}
          onClose={closeAllPopups}
-         onCardDelet={handleCardDelete}
+         // onCardDelet={handleCardDelete}
          idCard={currentIdCard}
          />
          <ImagePopup
@@ -374,8 +330,14 @@ function App() {
          cardUserid={cardUserid}
          onCardDelet={deleteUsers}
          />
+         <CardInfoUser
+         isOpen={cardInfoUser}
+         onClose={closeAllPopups}
+         inforationUserCard={inforationUserCard}
+         />
 
       </div>
+      </CurrentUserid.Provider>
    </CurrentUserContext.Provider>
    );
 }

@@ -13,6 +13,9 @@ function CardUser(props) {
    function deleteUserClick() {
       props.deleteUser(currentAllUsers)
    }
+   function asd() {
+      props.setIdUser(currentAllUsers._id)
+   }
 
    return(
    <section className="admin-content">
@@ -25,7 +28,7 @@ function CardUser(props) {
             />
          </div>
          <div className="user-panel__profile">
-            <Link to="/main" className="header__button">
+            <Link to="/view-user" onClick={asd} className="header__button">
                <h1 className="profile__name">{currentAllUsers.name}</h1>
                <p className="profile__job">{currentAllUsers.about}</p>
                <p className="profile__job">{currentAllUsers.role}</p>

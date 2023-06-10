@@ -1,6 +1,11 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
-const Popup = ({ isOpen, name, onClose, children, popupContainer, popupContainerAdd }) => {
+const Popup = ({ isOpen, name, onClose, children, popupContainer, popupContainerAdd, buttonAdd}) => {
+
+
+   // const [activeButton, setActiveButton] = useState(false)
+   // setActiveButton(buttonAdd)
+
    useEffect(() => {
       if (!isOpen) return;
 
