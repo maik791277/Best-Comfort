@@ -1,0 +1,19 @@
+.Swaiper__image {
+    width: 807px;
+    height: 530px;
+    object-fit: cover;
+}
+
+@media all and (min-width: 280px) and (max-width: 600px) {
+    .Swaiper__image {
+        width: 400px;
+        height: 270px;
+    }
+}
+
+@media all and (min-width: 601px) and (max-width: 850px) {
+    .Swaiper__image {
+        width: 540px;
+        height: 350px;
+    }
+}

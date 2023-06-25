@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import React from "react";
+import React, {useState} from "react";
 
 
 function CardUser(props) {
@@ -13,29 +13,41 @@ function CardUser(props) {
    function deleteUserClick() {
       props.deleteUser(currentAllUsers)
    }
-   function asd() {
+   function informationUser() {
       props.setIdUser(currentAllUsers._id)
    }
+
+   function editUserPsswordPopupClick() {
+      props.editUserPsswordPopups(currentAllUsers)
+   }
+
+
+
 
    return(
    <section className="admin-content">
       <div className="user-panel">
-         <div className="user-panel__image">
-            <img
-            className="profile__avatar"
-            src={currentAllUsers.avatar}
-            alt="Аватарка"
-            />
+         <div className="user-panel__conteiner">
+            <div className="user-panel__image">
+               <img
+               className="profile__avatar"
+               src={currentAllUsers.avatar}
+               alt="Аватарка"
+               />
+            </div>
+            <div className="user-panel__profile">
+               <Link to="/view-user" onClick={informationUser} className="header__button">
+                  <h1 className="user-panel__name">{currentAllUsers.name}</h1>
+                  <p className="user-panel__job">{currentAllUsers.job_title}</p>
+                  <p className="user-panel__job">{currentAllUsers.role}</p>
+               </Link>
+            </div>
          </div>
-         <div className="user-panel__profile">
-            <Link to="/view-user" onClick={asd} className="header__button">
-               <h1 className="profile__name">{currentAllUsers.name}</h1>
-               <p className="profile__job">{currentAllUsers.about}</p>
-               <p className="profile__job">{currentAllUsers.role}</p>
-            </Link>
+         <div className="user-panel__conteiner-button">
+            <button className="user-panel__button user-panel__button_list_edit" onClick={editUserPopupClick}>Редактировать</button>
+            <button className="user-panel__button user-panel__button_list_password" onClick={editUserPsswordPopupClick}>Пароль</button>
+            {currentAllUsers.role === "user" &&<button className="user-panel__button user-panel__button_list_remove" onClick={deleteUserClick}>Удалить</button>}
          </div>
-         <button className="user-panel__button user-panel__button_list_edit" onClick={editUserPopupClick}>Редактировать</button>
-         <button className="user-panel__button user-panel__button_list_remove" onClick={deleteUserClick}>Удалить</button>
       </div>
    </section>
    );

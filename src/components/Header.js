@@ -152,11 +152,7 @@ function Header (props) {
 
 
       <header className="header">
-         <img
-         className="header__logo"
-         src={mestoSvg}
-         alt="Логотип Mesto"
-         />
+         <p className="header__logo">Бэст-комфорт</p>
 
          <div className="header__user">
             {user &&

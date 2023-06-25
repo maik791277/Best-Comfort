@@ -13,7 +13,9 @@ function EditProfilePopup(props) {
    React.useEffect(() => {
       setValues({
          name: currentUser.name,
-         aboutUser: currentUser.about
+         aboutUser: currentUser.about,
+         surname: currentUser.surname,
+
       })
    }, [props.isOpen]);
 
@@ -23,6 +25,7 @@ function EditProfilePopup(props) {
       props.onUpdateUser({
          name: values.name,
          about: values.aboutUser,
+         surname: values.surname,
       }, currentUser._id);
 
       resetForm()
@@ -45,10 +48,23 @@ function EditProfilePopup(props) {
             id="profile-name-input"
             minLength="2"
             maxLength="40"
-            placeholder="Имя фамилия"
+            placeholder="Имя"
             value={values.name}
             onChange={handleChange}
             error={errors.name}
+            isValid={isValid}
+         />
+         <InputPopup
+            className="field_name"
+            type="text"
+            name="surname"
+            id="profile-name-input"
+            minLength="2"
+            maxLength="40"
+            placeholder="фамилия"
+            value={values.surname}
+            onChange={handleChange}
+            error={errors.surname}
             isValid={isValid}
          />
          <InputPopup

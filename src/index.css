@@ -60,11 +60,17 @@
 @import "./blocks/popup/__input-error/_type/popup__input-error_type_visible.css";
 @import "./blocks/popup/__input/_black/popup__input_black.css";
 @import "./blocks/popup/__form/_popup-delete/popup__form_popup-delete.css";
+@import "./blocks/popup/__container/_swiper/popup__container_swiper.css";
+@import "./blocks/popup/__zuroven/popup__zuroven.css";
 /* popup image */
 @import "./blocks/popup-image/popup-image.css";
 @import "./blocks/popup-image/__container/popup-image__container.css";
 @import "./blocks/popup-image/__image/popup-image__image.css";
 @import "./blocks/popup-image/__title/popup-image__title.css";
+@import "./blocks/popup-image/__button-edit/popup-image__button-edit.css";
+@import "./blocks/popup-image/__container-swaiper/popup-image__container-swaiper.css";
+@import "./blocks/popup-image/__text/popup-image__text.css";
+@import "./blocks/popup-image/__container-text/popup-image__container-text.css";
 /* popup  opened*/
 @import "./blocks/popup/_opened/popup_opened.css";
 /* body_preload */
@@ -90,11 +96,16 @@
 @import "./blocks/hamburger/__button/__button-open/__button-open.css";
 /* user-panel */
 @import "./blocks/user-panel/user-panel.css";
+@import "./blocks/user-panel/__conteiner/user-panel__conteiner.css";
+@import "./blocks/user-panel/__conteiner-button/user-panel__conteiner-button.css";
 @import "./blocks/user-panel/__profile/user-panel__profile.css";
 @import "./blocks/user-panel/__button/user-panel__button.css";
+@import "./blocks/user-panel/__name/user-panel__name.css";
+@import "./blocks/user-panel/__job/user-panel__job.css";
 @import "./blocks/user-panel/__image/user-panel__image.css";
 @import "./blocks/user-panel/__button/_list/user-panel__button_list_edit.css";
 @import "./blocks/user-panel/__button/_list/user-panel__button_list_remove.css";
+@import "./blocks/user-panel/__button/_list/_password/user-panel__button_list_password.css";
 /* cardInfoUser */
 @import "./blocks/cardInfoUser/cardInfoUser.css";
 @import "./blocks/cardInfoUser/__container/cardInfoUser__container.css";
@@ -105,3 +116,7 @@
 @import "./blocks/cardInfoUser/__textH/cardInfoUser__textH.css";
 @import "./blocks/cardInfoUser/__textP/cardInfoUser__textP.css";
 @import "./blocks/cardInfoUser/cardInfoUser__text-p/cardInfoUser__text-p.css";
+/* Swaiper */
+@import "./blocks/Swaiper/__image/Swaiper__image.css";
+@import "./blocks/Swaiper/__content/Swaiper__content.css";
+@import "./blocks/Swaiper/__delete-image/Swaiper__delete-image.css";

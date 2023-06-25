@@ -2,10 +2,8 @@ import Popup from "./Popup";
 import React from "react";
 
 function PopupWithForm(props) {
-
-
    return(
-   <Popup isOpen={props.isOpen} name={props.name} onClose={props.onClose} popupContainer={'popup__container'} popupContainerAdd={props.popupContainerForm}>
+   <Popup  isOpen={props.isOpen} name={props.name} onClose={props.onClose} popupContainer={'popup__container'} popupContainerAdd={props.popupContainerForm} classAdd={props.classAdd}>
       <form className="popup__form" name={props.name} onSubmit={props.onSubmit} noValidate>
          <h2 className="popup__title">{props.title}</h2>
          {props.children}

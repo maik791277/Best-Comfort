@@ -14,9 +14,8 @@ function Main(props) {
          {!props.loggedAdminPage && <Profile onEditAvatar={props.onEditAvatar} currentUser={currentUser} onEditProfile={props.onEditProfile} onAddPlace={props.onAddPlace} setCardInfoUser={props.setCardInfoUser}/>}
          {!props.loggedAdminPage && <Users card={props.card} handleClick={props.handleClick} onCardDelete={props.onCardDelete} currentUser={currentUser}/>}
          {props.loggedAdminPage  && <Profile onEditAvatar={props.onEditAvatar} currentUser={currentUser} onEditProfile={props.onEditProfile} onAddPlace={props.registeringNewUserPopupClick} setCardInfoUser={props.setCardInfoUser}/>}
-         {props.loggedAdminPage  && <Admin currentUser={currentUser} currentAllUsers={props.currentAllUsers} editUserPopupClick={props.editUserPopupClick} deleteUser={props.deleteUser} setIdUser={props.setIdUser}/>}
+         {props.loggedAdminPage  && <Admin currentUser={currentUser} currentAllUsers={props.currentAllUsers} editUserPopupClick={props.editUserPopupClick} deleteUser={props.deleteUser} setIdUser={props.setIdUser} editUserPsswordPopups={props.editUserPsswordPopups}/>}
       </main>
-      <Footer/>
    </>
    );
 }

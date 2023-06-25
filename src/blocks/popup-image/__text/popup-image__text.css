@@ -1,0 +1,10 @@
+.popup-image__text {
+    max-width: 600px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 23px;
+    color: #fff;
+    text-align: justify;
+    text-indent: 30px;
+}

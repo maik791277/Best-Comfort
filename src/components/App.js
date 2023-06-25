@@ -22,6 +22,11 @@ import ViewUser from "./pages/ViewUser";
 import {CurrentUserid} from "../contexts/CurrentUserid";
 import CardInfoUser from "./CardInfoUser";
 import Users from "./pages/Users";
+import Footer from "./Footer";
+import DeleteImagePopup from "./DeleteImagePopup";
+import {deleteImage} from "../utils/ApiUser";
+import EditingReportCardPopup from "./editingReportCardPopup";
+import EditUserPsswordPopup from "./EditUserPsswordPopup";
 
 
 function App() {
@@ -35,6 +40,12 @@ function App() {
    const [isRegisteringNewUserPopup ,setIsRegisteringNewUserPopup] = useState(false)
    const [inDeleteUser, setInDeleteUser] = useState(false)
    const [cardInfoUser, setCardInfoUser] = useState(false)
+   const [buttondeleteusers, setbuttondeleteusers] = useState(false)
+   const [imagePopupdel, serImagePopupdel] = useState(false)
+   const [editUserPsswordPopup, setEditUserPsswordPopup] = useState(false)
+   const [editingReportCards, seteditingReportCards] = useState(false)
+   const [dataReportCard, setdataReportCard] = useState({})
+   const [buttonAdd, setbuttonAdd] = useState(true)
    const [popupRegister, setPopupRegister] = useState({
       textPopup: '',
       imagePopup: ''
@@ -49,6 +60,7 @@ function App() {
    const [currentUser, setCurrentUser] = useState([]);
    const [currentAllUsers, setCurrentAllUsers] = useState([])
    const [currentCard, setCurrentCard] = useState([]);
+   const [isCardImageData, setisCardImageData] =useState({})
    const [inforationUserCard, setInforationUserCard] = useState({})
    const [token, setToken] = useState(true)
    const [idUser, setIdUser] = useState("")
@@ -56,8 +68,6 @@ function App() {
 
    const navigate = useNavigate()
    let location = useLocation();
-
-
 
 
 
@@ -102,6 +112,8 @@ function App() {
       })
    }
 
+
+
    function tokenCheck(jwt) {
       if (jwt){
          ApiUser.tokenVerification(jwt).then(() => {
@@ -139,8 +151,12 @@ function App() {
 
    function handleUpdateUser(data, idUser) {
       ApiUser.createUserInformation(data, idUser, jwt)
-      .then((data) => {
-         setCurrentUser(data);
+      .then(() => {
+         let jwtUser = jwtDecode(jwt)
+         ApiUser.usersMe(jwtUser._id, jwt)
+         .then((data) => {
+            setCurrentUser(data);
+         })
          closeAllPopups();
       })
       .catch((err) => alert(err));
@@ -159,9 +175,70 @@ function App() {
       .then(() => {
          allUsers(jwt)
          closeAllPopups();
+         closeEditUserPsswordPopup();
+         let jwtUser = jwtDecode(jwt)
+         ApiUser.usersMe(jwtUser._id, jwt)
+         .then((data) => {
+            setCurrentUser(data);
+         })
       })
       .catch((err) => alert(err));
    }
+
+
+
+
+
+
+   function addCardUser(data, idUser, files, callback) {
+      ApiUser.addCard(idUser,data, jwt)
+      .then((data) => {
+         for (const f of files.value) {
+            addCardUserImage(idUser, data["_id"], jwt, f)
+         }
+         callback();
+      })
+   }
+
+   function addCardUserImage(idUser, idCard, jwt, file) {
+      ApiUser.addCardImage(idUser, idCard, jwt, file)
+      .then(() => {
+         card()
+         closeAllPopups()
+      })
+   }
+
+   function deleteCard(idUser, Card) {
+      ApiUser.deleteCard(idUser, Card, jwt)
+      .then(() => {
+         card()
+         closeAllPopups()
+      })
+   }
+
+   function deleteImage(idUser, idCard, idImage) {
+      ApiUser.deleteImage(idUser, idCard, idImage, jwt)
+      .then(() => {
+         card()
+         closeImagePopupdel()
+         closeAllPopups()
+      }
+      )
+   }
+
+   function editingReportCardsSubmit(data, idUser, files, callback, idCard) {
+      ApiUser.editingReportCard(idUser,idCard, data, jwt)
+      .then((data) => {
+         for (const f of files.value) {
+            addCardUserImage(idUser, data["_id"], jwt, f)
+         }
+         callback();
+         closeeditingReportCards()
+      })
+   }
+
+
+
 
    useEffect(() => {
       tokenCheck(jwt)
@@ -210,6 +287,12 @@ function App() {
       setCardUserid(data)
    }
 
+   function EditUserPsswordPopups(data) {
+      setEditUserPsswordPopup(true)
+      setCardUserid(data)
+   }
+
+
    function setCardInfoUserClick(data) {
       setCardInfoUser(true)
       setInforationUserCard(data)
@@ -218,6 +301,32 @@ function App() {
    function handleCardClick(card) {
       setSelectedCard(card);
       setIsImagePopupOpen(true);
+   }
+
+   function setbuttonAddtrue() {
+      setbuttonAdd(false)
+   }
+
+   function DeleteImagePopupClick(data) {
+      serImagePopupdel(true)
+      setisCardImageData(data)
+   }
+
+   function editingReportCardsClick(data) {
+      setdataReportCard(data)
+      seteditingReportCards(true)
+   }
+
+   function closeImagePopupdel() {
+      serImagePopupdel(false)
+   }
+
+   function closeeditingReportCards() {
+      seteditingReportCards(false)
+   }
+
+   function closeEditUserPsswordPopup() {
+      setEditUserPsswordPopup(false)
    }
 
    function closeAllPopups() {
@@ -267,17 +376,21 @@ function App() {
                deleteUser={deleteUser}
                setIdUser={setIdUser}
                setCardInfoUser={setCardInfoUserClick}
+               editUserPsswordPopups={EditUserPsswordPopups}
                />}/>
                <Route path="/view-user" element={<ProtectedRoute
                   element={ViewUser}
                   jwt={jwt}
                   loggedIn={loggedAdmin}
                   setCardInfoUser={setCardInfoUserClick}
+                  handleClick={handleCardClick}
+                  onCardDelete={DeleteCardClick}
                   />}/>
                <Route path="/sign-in" element={<Login authorize={authorize}/> }/>
                <Route path="*" element={<PageNotFound/>}/>
                <Route path="/" element={loggedIn ? <Navigate to='/main'/> : <Navigate to='/sign-in'/>}/>
             </Routes>
+            <Footer/>
          </div>
 
          <EditProfilePopup
@@ -293,18 +406,26 @@ function App() {
          <AddPlacePopup
          isOpen={isAddPlacePopupOpen}
          onClose={closeAllPopups}
-         // onUpdateCard={}
+         onUpdateCard={addCardUser}
          />
          <DeletePlacePopup
          isOpen={isDeleteCardPopupOpen}
          onClose={closeAllPopups}
-         // onCardDelet={handleCardDelete}
+         onCardDelet={deleteCard}
          idCard={currentIdCard}
+         />
+         <DeleteImagePopup
+         isOpen={imagePopupdel}
+         onClose={closeImagePopupdel}
+         isCardImageData={isCardImageData}
+         deleteImage={deleteImage}
          />
          <ImagePopup
          isOpen={isImagePopupOpen}
          onClose={closeAllPopups}
          card={selectedCard}
+         ImagePopupClick={DeleteImagePopupClick}
+         editingReportCardsClick={editingReportCardsClick}
          />
          <InfoTooltip
          isOpen={isInfoTooltip}
@@ -322,6 +443,8 @@ function App() {
          isOpen={isRegisteringNewUserPopup}
          onClose={closeAllPopups}
          onUserUp={registeringNewUser}
+         popupRegister={setPopupRegister}
+         isInfoTooltip={setIsInfoTooltip}
          />
          <DeleteUserPlacePopup
          isOpen={inDeleteUser}
@@ -335,7 +458,20 @@ function App() {
          onClose={closeAllPopups}
          inforationUserCard={inforationUserCard}
          />
-
+         <EditingReportCardPopup
+         isOpen={editingReportCards}
+         onClose={closeeditingReportCards}
+         dataCard={dataReportCard}
+         onUpdateCard={editingReportCardsSubmit}
+         />
+         <EditUserPsswordPopup
+         isOpen={editUserPsswordPopup}
+         onClose={closeEditUserPsswordPopup}
+         cardUserid={cardUserid}
+         onUpdateUser={handleUpdateUserAdmin}
+         popupRegister={setPopupRegister}
+         isInfoTooltip={setIsInfoTooltip}
+         />
       </div>
       </CurrentUserid.Provider>
    </CurrentUserContext.Provider>

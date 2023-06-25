@@ -8,19 +8,16 @@ function EditUserPopup(props) {
    const cardUserid = props.cardUserid
    const {values, handleChange, errors, isValid, resetForm, setValues, setIsValid} = useFormAndValidation({})
 
-
    React.useEffect(() => {
       setValues({
          name: cardUserid.name,
-         surname: cardUserid.surname,
-         job_title: cardUserid.job_title,
+         surname: cardUserid.surname === null ? "" : cardUserid.surname,
+         job_title: cardUserid.job_title === null ? "" : cardUserid.job_title,
          avatar: cardUserid.avatar,
-         work_group: cardUserid.work_group,
-
+         work_group: cardUserid.work_group === null ? "" :cardUserid.work_group,
          about: cardUserid.about
       })
    }, [props.isOpen]);
-
 
    function handleSubmit(e) {
       e.preventDefault();
@@ -116,6 +113,18 @@ function EditUserPopup(props) {
       error={errors.aboutUser}
       isValid={isValid}
       />
+      {/*<InputPopup*/}
+      {/*className="field_job"*/}
+      {/*type="text"*/}
+      {/*name="password"*/}
+      {/*id="profile-Admin-work_group-input"*/}
+      {/*minLength="2"*/}
+      {/*maxLength="200"*/}
+      {/*placeholder="Группа"*/}
+      {/*onChange={handleChange}*/}
+      {/*error={errors.aboutUser}*/}
+      {/*isValid={isValid}*/}
+      {/*/>*/}
       {/*<InputPopup*/}
       {/*className="field_job"*/}
       {/*type="email"*/}

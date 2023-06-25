@@ -2,6 +2,7 @@ import {useFormAndValidation} from "../hooks/useFormAndValidation";
 import PopupWithForm from "./PopupWithForm";
 import InputPopup from "./InputPopup";
 import React from "react";
+import somethingIsWrong from "../images/something-wrong.png";
 
 function RegisteringNewUserPopup(props) {
 
@@ -10,19 +11,35 @@ function RegisteringNewUserPopup(props) {
    function handleSubmit(e) {
       e.preventDefault();
 
-      props.onUserUp(values)
+      if (values.password !== values.confirmPassword) {
+         props.popupRegister({
+            textPopup: 'Что-то пошло не так! Пароли не совпадают.',
+            imagePopup: somethingIsWrong
+         })
+
+         props.isInfoTooltip(true)
+
+      }else {
+         props.onUserUp({
+            email: values.email,
+            password: values.password
+         })
+      }
+
+
 
       resetForm()
       setValues({
          email: '',
-         password: ''
+         password: '',
+         confirmPassword: ''
       })
    }
 
    return(
    <PopupWithForm
    name="user-title"
-   title="Редактировать профиль"
+   title="Создания пользователя"
    nameButton={'Сохранить'}
    isOpen={props.isOpen}
    onClose={props.onClose}
@@ -53,6 +70,17 @@ function RegisteringNewUserPopup(props) {
       value={values.password}
       onChange={handleChange}
       error={errors.password}
+      isValid={isValid}
+      />
+      <InputPopup
+      className="field_job"
+      type="password"
+      name="confirmPassword"
+      id="input-image-user"
+      placeholder="Повторите пароль"
+      value={values.link}
+      onChange={handleChange}
+      error={errors.link}
       isValid={isValid}
       />
       {/*<InputPopup*/}

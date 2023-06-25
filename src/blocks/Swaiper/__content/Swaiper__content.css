@@ -1,0 +1,7 @@
+.Swaiper__content {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+}
+

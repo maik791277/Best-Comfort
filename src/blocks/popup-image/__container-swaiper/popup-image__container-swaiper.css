@@ -1,0 +1,15 @@
+.popup-image__container-swaiper {
+    width: 900px;
+}
+
+@media all and (min-width: 280px) and (max-width: 600px) {
+    .popup-image__container-swaiper {
+        width: 400px;
+    }
+}
+
+@media all and (min-width: 601px) and (max-width: 850px) {
+    .popup-image__container-swaiper {
+        width: 626px;
+    }
+}

@@ -4,7 +4,9 @@ import CardUser from "../CardUser";
 
 export function Admin(props) {
    const currentAllUsers = props.currentAllUsers
+
    console.log(currentAllUsers)
+
    return(
    <main className="content">
       {currentAllUsers.map(item => {
@@ -15,6 +17,7 @@ export function Admin(props) {
          editUserPopupClick={props.editUserPopupClick}
          deleteUser={props.deleteUser}
          setIdUser={props.setIdUser}
+         editUserPsswordPopups={props.editUserPsswordPopups}
          />
          );
       })}

@@ -3,7 +3,6 @@ import React from "react";
 function Profile(props) {
    const currentUser = props.currentUser
 
-
    function CardInfoUserClick() {
       props.setCardInfoUser(currentUser)
 
@@ -21,8 +20,8 @@ function Profile(props) {
          </div>
          <div className="profile__info">
             <div className="profile__info-content" onClick={CardInfoUserClick}>
-               <h1 className="profile__name">{currentUser.name}</h1>
-               <p className="profile__job">{currentUser.about}</p>
+               <h1 className="profile__name">{currentUser.name} {currentUser.surname}</h1>
+               <p className="profile__job">{currentUser.job_title}</p>
             </div>
             <button className="profile__edit-button" type="button" onClick={props.onEditProfile}/>
          </div>

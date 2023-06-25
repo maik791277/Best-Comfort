@@ -1,13 +1,13 @@
 .popup {
-    width:100%;
-    min-height:100%;
-    overflow:hidden;
-    position:fixed;
+    width: 100%;
+    min-height: 100%;
+    overflow: hidden;
+    position: fixed;
     top: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgb(0 0 0 / 85%);
     font-family: "Inter", Arial, sans-serif;
     transition: visibility 0s, opacity 0.3s linear;
     visibility: hidden;

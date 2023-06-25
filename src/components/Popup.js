@@ -1,10 +1,6 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 
-const Popup = ({ isOpen, name, onClose, children, popupContainer, popupContainerAdd, buttonAdd}) => {
-
-
-   // const [activeButton, setActiveButton] = useState(false)
-   // setActiveButton(buttonAdd)
+const Popup = ({ isOpen, name, onClose, children, popupContainer, popupContainerAdd,popupClass,classAdd}) => {
 
    useEffect(() => {
       if (!isOpen) return;
@@ -15,7 +11,7 @@ const Popup = ({ isOpen, name, onClose, children, popupContainer, popupContainer
          }
       }
 
-      document.addEventListener('keydown', closeByEscape)
+      document.addEventListener('keyup', closeByEscape)
    }, [isOpen, onClose])
 
    const handleOverlay = (e) => {
@@ -24,7 +20,7 @@ const Popup = ({ isOpen, name, onClose, children, popupContainer, popupContainer
       }
    }
    return (
-   <div className={`popup popup_type_${name} ${isOpen ? "popup_opened" : ""}`} onClick={handleOverlay}>
+   <div className={`popup popup_type_${name} ${classAdd} ${isOpen ? "popup_opened" : ""} ${popupClass}`} onMouseDown={handleOverlay}>
       <div className={`${popupContainer} ${popupContainerAdd}`}>
          {children}
          <button className="popup__close-button" type="button" onClick={onClose} />

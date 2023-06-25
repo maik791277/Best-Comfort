@@ -6,6 +6,7 @@ import React, {useEffect, useState} from "react";
 import {CurrentUserid} from "../../contexts/CurrentUserid";
 import {useNavigate} from "react-router-dom";
 import Footer from "../Footer";
+import Card from "../Card";
 
 function ViewUser(props) {
 
@@ -15,37 +16,50 @@ function ViewUser(props) {
    const [cards, setCards] = useState([])
    const [user, setUser] = useState([])
 
-   function card() {
-      ApiUser.getInitialCards(currentUser, props.jwt)
-      .then((data) => {
-         setCards(data);
-      })
-      .catch((err) => alert(err));
-   }
+   console.log(cards)
 
    function userInfo() {
       ApiUser.usersMe(currentUser, props.jwt)
       .then((data) => {
          setUser(data)
+         ApiUser.getInitialCards(data._id, props.jwt)
+         .then((data) => {
+            setCards(data);
+         })
+         .catch((err) => alert(err));
       })
    }
 
-   function infoUser() {
-      console.log(user)
-   }
+
 
    useEffect(() => {
       userInfo()
-      card()
    }, [navigate])
 
 
    return(
    <>
       <main className="content">
-         <Profile onEditAvatar={props.onEditAvatar} currentUser={user} onEditProfile={props.onEditProfile} onAddPlace={props.onAddPlace} clickInfoUser={infoUser} setCardInfoUser={props.setCardInfoUser}/>
+         <Profile onEditAvatar={props.onEditAvatar} currentUser={user} onEditProfile={props.onEditProfile} onAddPlace={props.onAddPlace} setCardInfoUser={props.setCardInfoUser}/>
+         <section className="card-grid">
+            <ul className="card-grid__cards">
+               {cards.map(item => {
+                  return (
+                  <Card
+                  key={item._id}
+                  images={item.images}
+                  name={item.name}
+                  idUserCard={item._owner_id}
+                  idUser={currentUser._id}
+                  onCardClick={props.handleClick}
+                  card={item}
+                  onCardDelet={props.onCardDelete}
+                  />
+                  );
+               })}
+            </ul>
+         </section>
       </main>
-      <Footer/>
    </>
    );
 

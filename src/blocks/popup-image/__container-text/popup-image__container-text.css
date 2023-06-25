@@ -1,0 +1,13 @@
+.popup-image__container-text {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center
+}
+
+@media all and (min-width: 280px) and (max-width: 600px) {
+    .Swaiper__image {
+        width: 400px;
+        height: 270px;
+    }
+}

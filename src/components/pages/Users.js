@@ -12,7 +12,7 @@ function Users(props) {
                return (
                <Card
                key={item._id}
-               link={item.link}
+               images={item.images}
                name={item.name}
                idUserCard={item._owner_id}
                idUser={currentUser._id}

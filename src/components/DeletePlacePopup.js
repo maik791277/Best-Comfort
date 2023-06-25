@@ -1,14 +1,15 @@
 import React from "react";
 import Popup from "./Popup";
+import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
 function DeletePlacePopup(props) {
 
-
+   const currentUser = React.useContext(CurrentUserContext)
 
    function handleDeleteClick(e) {
       e.preventDefault();
 
-      props.onCardDelet(props.idCard)
+      props.onCardDelet(currentUser._id, props.idCard._id)
    }
 
    return (

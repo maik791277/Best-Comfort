@@ -1,0 +1,11 @@
+.Swaiper__delete-image {
+    position: absolute;
+    top: 0;
+    right: 20px;
+    width: 22px;
+    height: 19px;
+    border: none;
+    background: url("../../../images/Group.svg") no-repeat center;
+    transition: 0.3s;
+    cursor: pointer;
+}

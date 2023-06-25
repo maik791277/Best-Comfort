@@ -13,6 +13,7 @@ function InfoTooltip(props) {
    name="user-title"
    isOpen={props.isOpen}
    onClose={props.onClose}
+   classAdd={"popup__zuroven"}
    onSubmit={handleSubmit}>
       <div className="info-tooltip">
          <img src={props.image}/>
